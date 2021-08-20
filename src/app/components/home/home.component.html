@@ -2,10 +2,7 @@
     <mat-form-field>
         <mat-label>Sort</mat-label>
 
-        <mat-select
-            panelClass="sort-select"
-            [(ngModel)]="sort"
-        >
+        <mat-select panelClass="sort-select" [(ngModel)]="sort">
             <mat-option value="name">Name</mat-option>
             <mat-option value="-released">Released</mat-option>
             <mat-option value="-added">Added</mat-option>
@@ -13,31 +10,34 @@
             <mat-option value="-updated">Updated</mat-option>
             <mat-option value="-rating">Rating</mat-option>
             <mat-option value="metacritic">Metacritic</mat-option>
-            
+
         </mat-select>
     </mat-form-field>
 </div>
 
 <div class="games">
-    <div class="game">
-        <div class="game-thumb-container">
-            <img
-                class="game-thumbnail"
-                src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
-                alt="game thumbnail"
-            >
-        </div>
-
-        <div class="game-description">
-            <p class="game-name">Name</p>
-            <div class="game-platforms">
+    <ng-container *ngFor="let game of games">
+        <div class="game">
+            <div class="game-thumb-container">
                 <img
-                    class="game-platform"
-                    src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cmFuZG9tfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80"
-                    alt="game platform"
-                >
+                    *ngIf="game.background_image"
+                    class="game-thumbnail"
+                    src="{{ game.background_image }}"
+                    alt="game thumbnail">
+                <p *ngIf="!game.background_image">There is no image</p>
             </div>
-        </div>
 
-    </div>
+            <div class="game-description">
+                <p class="game-name">{{ game.name }}</p>
+                <div class="game-platforms">
+                    <img
+                        *ngFor="let gamePlatform of game.parent_platforms"
+                        class="game-platform"
+                        src="assets/images/platforms/{{ gamePlatform.platform.name.toLowerCase() }}.svg"
+                        alt="{{ gamePlatform.platform.name.toLowerCase() }}">
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
 </div>
